@@ -26,6 +26,12 @@ beforeEach(() => {
 
   });
 
+  it('should not increment add count if word already exists', () => {
+      wordTrie.insert('hello');
+      expect(wordTrie.count).to.equal(1);
+      wordTrie.insert('hello');
+      expect(wordTrie.count).to.equal(1)
+  })
 
   it('should take in a word',() => {
     wordTrie.insert('hello');
@@ -37,9 +43,7 @@ beforeEach(() => {
           .l.children
           .l.children
           .o.letter).to.equal('o');
-
   });
-
 
   // Should be able to insert two words
   it('Should be able to insert two words', () => {
@@ -70,6 +74,8 @@ beforeEach(() => {
         wordTrie.populate(dictionary);
         expect(wordTrie.count).to.equal(235886);
     });
+
+
 });
 
 
