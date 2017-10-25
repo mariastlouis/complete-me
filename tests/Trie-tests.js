@@ -28,7 +28,6 @@ beforeEach(() => {
 
 
   it('should take in a word',() => {
-    // wordTrie = new Trie ();
     wordTrie.insert('hello');
     console.log(wordTrie.root.children);
        expect(
@@ -42,38 +41,50 @@ beforeEach(() => {
   });
 
 
+  // Should be able to insert two words
+  it('Should be able to insert two words', () => {
+    wordTrie.insert('plaza');
+    wordTrie.insert('place');
+    expect(
+      wordTrie.root.children
+      .p.children
+      .l.children
+      .a.children
+      .z.children
+      .a.letter
+    ).to.equal('a');
+    expect(
+      wordTrie.root.children
+      .p.children
+      .l.children
+      .a.children
+      .c.children
+      .e.letter
+    ).to.equal('e');
+  })
+
+
   it.skip('should populate a dictionary', () => {
         const wordTrie = new Trie();
 
         wordTrie.populate(dictionary);
         expect(wordTrie.count).to.equal(235886);
     });
-
- it('should return array', () => {
-        let wordTrie = new Trie();
-        wordTrie.insert('pizza');
-        console.log(JSON.stringify(wordTrie, null, 2));
-        // expect(wordTrie.suggest('piz')).to.be.an('array');
-
-        
-        expect(wordTrie.suggest('piz')).to.deep.equal(['pizza'])
-      })
+});
 
 
+describe('Suggest', () => {
+  
+  let wordTrie;
 
+   it('should return array of all the complete words', () => {
+          wordTrie = new Trie();
+          wordTrie.insert('pizza');
+          expect(wordTrie.suggest('piz')).to.deep.equal(['pizza'])
+    })
 
 });
 
 
-// describe('SUGGEST', () => { 
-//     it('should return an array', () => {
-//     let wordTrie = new Trie();
-//     wordTrie.insert('pizza');
-//     expect(wordTrie.suggest('piz')).to.be.array;
-//     expect(wordTrie.suggest('piz')).to.deep.equal(['pizza']);
-//   });
-// });
-    
-  
 
 
