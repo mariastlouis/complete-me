@@ -7,20 +7,14 @@ const dictionary = fs.readFileSync(text).toString().trim().split('\n');
 
 describe('Trie', () => {
   let wordTrie;
-  let node;
 
-  // beforeEach(() => {
-  //   wordTrie = new Trie();
-  //   node = new Node();
-  // });
 
-  // it('should make a tree object', () => {
-  //   expect(wordTrie).to.be.an('object');
-
-  // });
+beforeEach(() => {
+  wordTrie = new Trie();
+});
 
   it('should exist', () => {
-    wordTrie = new Trie;
+    // wordTrie = new Trie ();
     expect(wordTrie).to.exist;
   });
 
@@ -34,25 +28,17 @@ describe('Trie', () => {
 
 
   it('should take in a word',() => {
+    // wordTrie = new Trie ();
     wordTrie.insert('hello');
-    console.log(JSON.stringify(wordTrie, null, 2));
+    console.log(wordTrie.root.children);
        expect(
-        wordTrie.root.child
-          .h.child
-          .e.child
-          .l.child
-          .l.child
-          .o.letter).to.equal('o')
+        wordTrie.root.children
+          .h.children
+          .e.children
+          .l.children
+          .l.children
+          .o.letter).to.equal('o');
 
-  });
-
-it.skip('should return suggestions', () => {
-    let wordTrie = new Trie();
-
-    wordTrie.insert('hi');
-    wordTrie.insert('high');
-    wordTrie.insert('high');
-    expect(wordTrie.suggest('h')).to.deep.eq(['hi', 'high', 'hight'])
   });
 
 
@@ -63,18 +49,31 @@ it.skip('should return suggestions', () => {
         expect(wordTrie.count).to.equal(235886);
     });
 
- 
-    it('should return array', () => {
+ it('should return array', () => {
+        let wordTrie = new Trie();
         wordTrie.insert('pizza');
-        expect(wordTrie.suggest('piz')).to.be.an('array');
+        console.log(JSON.stringify(wordTrie, null, 2));
+        // expect(wordTrie.suggest('piz')).to.be.an('array');
+
+        
         expect(wordTrie.suggest('piz')).to.deep.equal(['pizza'])
       })
 
 
+
+
+});
+
+
+// describe('SUGGEST', () => { 
+//     it('should return an array', () => {
+//     let wordTrie = new Trie();
+//     wordTrie.insert('pizza');
+//     expect(wordTrie.suggest('piz')).to.be.array;
+//     expect(wordTrie.suggest('piz')).to.deep.equal(['pizza']);
+//   });
 // });
-
-
-})
-
+    
+  
 
 
