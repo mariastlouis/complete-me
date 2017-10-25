@@ -7,14 +7,21 @@ const dictionary = fs.readFileSync(text).toString().trim().split('\n');
 
 describe('Trie', () => {
   let wordTrie;
+  let node;
 
-  beforeEach(() => {
-    wordTrie = new Trie();
-  })
+  // beforeEach(() => {
+  //   wordTrie = new Trie();
+  //   node = new Node();
+  // });
 
-  it('should make a tree object', () => {
-    expect(wordTrie).to.be.an('object');
+  // it('should make a tree object', () => {
+  //   expect(wordTrie).to.be.an('object');
 
+  // });
+
+  it('should exist', () => {
+    wordTrie = new Trie;
+    expect(wordTrie).to.exist;
   });
 
   it('should increment word count as words inserted into tree', () => {
@@ -28,6 +35,7 @@ describe('Trie', () => {
 
   it('should take in a word',() => {
     wordTrie.insert('hello');
+    console.log(JSON.stringify(wordTrie, null, 2));
        expect(
         wordTrie.root.child
           .h.child
@@ -40,6 +48,7 @@ describe('Trie', () => {
 
 it.skip('should return suggestions', () => {
     let wordTrie = new Trie();
+
     wordTrie.insert('hi');
     wordTrie.insert('high');
     wordTrie.insert('high');
@@ -49,13 +58,13 @@ it.skip('should return suggestions', () => {
 
   it.skip('should populate a dictionary', () => {
         const wordTrie = new Trie();
+
         wordTrie.populate(dictionary);
         expect(wordTrie.count).to.equal(235886);
     });
 
-  // describe('SUGGEST', function () {
+ 
     it('should return array', () => {
-        
         wordTrie.insert('pizza');
         expect(wordTrie.suggest('piz')).to.be.an('array');
         expect(wordTrie.suggest('piz')).to.deep.equal(['pizza'])
