@@ -8,14 +8,16 @@ const dictionary = fs.readFileSync(text).toString().trim().split('\n');
 describe('Trie', () => {
   let wordTrie;
 
-  it('should make a tree object', () => {
+  beforeEach(() => {
     wordTrie = new Trie();
+  })
+
+  it('should make a tree object', () => {
     expect(wordTrie).to.be.an('object');
 
   });
 
   it('should increment word count as words inserted into tree', () => {
-    wordTrie = new Trie ();
     wordTrie.insert('hello');
     expect(wordTrie.count).to.equal(1);
     wordTrie.insert('goodbye');
@@ -24,19 +26,15 @@ describe('Trie', () => {
   });
 
 
-  it.skip('should take in a word',() => {
-   wordTrie = new Trie ();
-   expect(wordTrie.count).to.equal(0);
+  it('should take in a word',() => {
     wordTrie.insert('hello');
        expect(
-        wordTrie
-          .children['h']
-          .children['e']
-          .children['l']
-          .children['l']
-          .children['l']
-          .children['o'].endWord
-      ).to.equal(1);
+        wordTrie.root.child
+          .h.child
+          .e.child
+          .l.child
+          .l.child
+          .o.letter).to.equal('o')
 
   });
 
@@ -49,16 +47,25 @@ it.skip('should return suggestions', () => {
   });
 
 
-
-
-
   it.skip('should populate a dictionary', () => {
         const wordTrie = new Trie();
         wordTrie.populate(dictionary);
         expect(wordTrie.count).to.equal(235886);
     });
 
+  // describe('SUGGEST', function () {
+    it('should return array', () => {
+        
+        wordTrie.insert('pizza');
+        expect(wordTrie.suggest('piz')).to.be.an('array');
+        expect(wordTrie.suggest('piz')).to.deep.equal(['pizza'])
+      })
 
 
-});
+// });
+
+
+})
+
+
 
