@@ -20,8 +20,6 @@
     ],
     "curly": "error",
     "eqeqeq": ["error", "always"],
-    "getter-return": ["warn", { "allowImplicit": true }],
-    
     "indent": ["warn", 2],
     "key-spacing": [
       "error", {

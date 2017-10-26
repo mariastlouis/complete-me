@@ -9,14 +9,39 @@ describe('Trie', () => {
   let wordTrie;
 
 
-beforeEach(() => {
-  wordTrie = new Trie();
-});
+  beforeEach(() => {
+    wordTrie = new Trie();
+  });
 
   it('should exist', () => {
-    // wordTrie = new Trie ();
     expect(wordTrie).to.exist;
   });
+
+  it('should be an object', () => {
+    expect(wordTrie).to.be.an('object');
+  })
+
+  it('should be able to populate with every word in the dictionary', () => {
+    const wordTrie = new Trie();
+
+    wordTrie.populate(dictionary);
+    expect(wordTrie.count).to.equal(234371);
+  });
+
+
+});
+
+describe('Insert', () => {
+  let wordTrie;
+
+  beforeEach(() => {
+    wordTrie = new Trie();
+  });
+
+  it('should take a letter into the tree', () => {
+    wordTrie.insert('a');
+    expect(wordTrie.root.children.a.letter).to.equal('a')
+  })
 
   it('should increment word count as words inserted into tree', () => {
     wordTrie.insert('hello');
@@ -27,25 +52,23 @@ beforeEach(() => {
   });
 
   it('should not increment add count if word already exists', () => {
-      wordTrie.insert('hello');
-      expect(wordTrie.count).to.equal(1);
-      wordTrie.insert('hello');
-      expect(wordTrie.count).to.equal(1)
+    wordTrie.insert('hello');
+    expect(wordTrie.count).to.equal(1);
+    wordTrie.insert('hello');
+    expect(wordTrie.count).to.equal(1)
   })
 
   it('should take in a word',() => {
     wordTrie.insert('hello');
-    console.log(wordTrie.root.children);
-       expect(
-        wordTrie.root.children
-          .h.children
-          .e.children
-          .l.children
-          .l.children
-          .o.letter).to.equal('o');
+    expect(
+      wordTrie.root.children
+      .h.children
+      .e.children
+      .l.children
+      .l.children
+      .o.letter).to.equal('o');
   });
 
-  // Should be able to insert two words
   it('Should be able to insert two words', () => {
     wordTrie.insert('plaza');
     wordTrie.insert('place');
@@ -56,7 +79,7 @@ beforeEach(() => {
       .a.children
       .z.children
       .a.letter
-    ).to.equal('a');
+      ).to.equal('a');
     expect(
       wordTrie.root.children
       .p.children
@@ -64,32 +87,54 @@ beforeEach(() => {
       .a.children
       .c.children
       .e.letter
-    ).to.equal('e');
+      ).to.equal('e');
   })
-
-
-  it.skip('should populate a dictionary', () => {
-        const wordTrie = new Trie();
-
-        wordTrie.populate(dictionary);
-        expect(wordTrie.count).to.equal(235886);
-    });
-
 
 });
 
 
 describe('Suggest', () => {
-  
+
   let wordTrie;
 
-   it('should return array of all the complete words', () => {
-          wordTrie = new Trie();
-          wordTrie.insert('pizza');
-          expect(wordTrie.suggest('piz')).to.deep.equal(['pizza'])
-    })
+  beforeEach(() => {
+    wordTrie = new Trie();
+  });
+
+  it('should return full words when given letters', () => {
+    wordTrie = new Trie();
+    wordTrie.insert('pizza');
+    expect(wordTrie.suggest('piz')).to.deep.equal(['pizza'])
+  })
+
+  it('should make suggestions despite capitalization of inserted words', () => {
+    wordTrie.insert('piZzLe');
+    wordTrie.insert('PizzA');
+    expect(wordTrie.suggest('piz')).to.deep.equal(['pizzle', 'pizza']);
+    expect(wordTrie.suggest('PiZ')).to.deep.equal(['pizzle', 'pizza']);
+  })
+
+  it('should include several words when only given a few letters' , () => {
+    wordTrie.populate(dictionary);
+    expect(wordTrie.suggest('app')).to.include.members(['apple', 'appreciation', 'approachable', 'appendicitis'])
+  })
+  
+  it('should prioritize suggestions based on what is selected most often', () => {
+    wordTrie = new Trie();
+    wordTrie.insert('pizzle');
+    wordTrie.insert('pizza');
+    wordTrie.insert('pizzeria')
+    expect(wordTrie.suggest('piz')).to.deep.equal(['pizzle', 'pizza', 'pizzeria'])
+    wordTrie.select('pizza');
+    expect(wordTrie.suggest('piz')).to.deep.equal(['pizza', 'pizzle', 'pizzeria'])
+    wordTrie.select('pizza');
+    wordTrie.select('pizzeria')
+    expect(wordTrie.suggest('piz')).to.deep.equal(['pizza', 'pizzeria', 'pizzle'])
+  })
 
 });
+
+
 
 
 
